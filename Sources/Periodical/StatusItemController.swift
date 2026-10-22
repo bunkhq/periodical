@@ -12,6 +12,14 @@ final class StatusItemController: NSObject {
     private var lastRendered: MenuBarPill?
     private var showingIdle = false
 
+    private static let fillButtonKey = "fillMenuBarButton"
+
+    /// When on, the block color fills the whole rounded menu bar button instead of a box inside it. Off by default.
+    private var fillButton: Bool {
+        get { UserDefaults.standard.bool(forKey: Self.fillButtonKey) }
+        set { UserDefaults.standard.set(newValue, forKey: Self.fillButtonKey) }
+    }
+
     init(store: BlockStore, clock: Clock) {
         self.store = store
         self.clock = clock
@@ -23,6 +31,8 @@ final class StatusItemController: NSObject {
             button.action = #selector(clicked(_:))
             button.sendAction(on: [.leftMouseUp, .rightMouseUp])
             button.imagePosition = .imageOnly
+            button.wantsLayer = true
+            button.layer?.cornerCurve = .continuous
         }
         clock.onTick { [weak self] in self?.refresh() }
         store.onChange = { [weak self] in self?.refresh() }
@@ -36,6 +46,7 @@ final class StatusItemController: NSObject {
             if !showingIdle {
                 button.image = Self.idleImage
                 button.toolTip = "Periodical"
+                setButtonFill(nil)
                 lastRendered = nil
                 showingIdle = true
             }
@@ -45,9 +56,9 @@ final class StatusItemController: NSObject {
         let pill: MenuBarPill
         switch phase {
         case .active(let seconds):
-            pill = MenuBarPill(icon: .active, timer: DurationFormat.string(seconds: seconds), title: block.name, color: block.color)
+            pill = MenuBarPill(icon: .active, timer: DurationFormat.string(seconds: seconds), title: block.name, color: block.color, fillsButton: fillButton)
         case .upcoming(let seconds):
-            pill = MenuBarPill(icon: .starting, timer: DurationFormat.string(seconds: seconds), title: block.name, color: block.color)
+            pill = MenuBarPill(icon: .starting, timer: DurationFormat.string(seconds: seconds), title: block.name, color: block.color, fillsButton: fillButton)
         case .passed:
             return
         }
@@ -56,7 +67,16 @@ final class StatusItemController: NSObject {
         showingIdle = false
 
         button.image = pill.image()
+        setButtonFill(pill.fillsButton ? NSColor(hex: block.color) : nil)
         button.toolTip = "\(block.name) · \(TimeParser.format(minutes: block.start)) – \(TimeParser.format(minutes: block.end))"
+    }
+
+    /// Paints the button itself as a capsule, so the color reaches the edges of the menu bar highlight.
+    private func setButtonFill(_ color: NSColor?) {
+        guard let button = statusItem.button, let layer = button.layer else { return }
+        button.layoutSubtreeIfNeeded()
+        layer.backgroundColor = color?.cgColor
+        layer.cornerRadius = color == nil ? 0 : button.bounds.height / 2
     }
 
     private static let idleImage: NSImage = {
@@ -75,6 +95,9 @@ final class StatusItemController: NSObject {
             let login = menu.addItem(withTitle: "Launch at Login", action: #selector(toggleLoginItem), keyEquivalent: "")
             login.target = self
             login.state = LoginItem.isEnabled ? .on : .off
+            let fill = menu.addItem(withTitle: "Fill Menu Bar Button", action: #selector(toggleFillButton), keyEquivalent: "")
+            fill.target = self
+            fill.state = fillButton ? .on : .off
             menu.addItem(.separator())
             menu.addItem(withTitle: "Quit Periodical", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
             statusItem.menu = menu
@@ -88,6 +111,12 @@ final class StatusItemController: NSObject {
     @objc private func toggleLoginItem() {
         LoginItem.set(!LoginItem.isEnabled)
     }
+
+    @objc private func toggleFillButton() {
+        fillButton.toggle()
+        lastRendered = nil
+        refresh()
+    }
 }
 
 /// The menu bar pill: `[⌛] 1h 26m 54s • Econ & Personal Finance Honors`.
@@ -99,6 +128,8 @@ struct MenuBarPill: Equatable {
     let timer: String
     let title: String
     let color: String
+    /// The button paints the color itself, so the image only draws the icon and text.
+    let fillsButton: Bool
 
     private static let height: CGFloat = 20
     private static let padding: CGFloat = 6
@@ -128,8 +159,10 @@ struct MenuBarPill: Equatable {
         )
 
         let image = NSImage(size: size, flipped: true) { rect in
-            NSColor(hex: color).setFill()
-            NSBezierPath(roundedRect: rect, xRadius: 5, yRadius: 5).fill()
+            if !fillsButton {
+                NSColor(hex: color).setFill()
+                NSBezierPath(roundedRect: rect, xRadius: 5, yRadius: 5).fill()
+            }
             let iconRect = NSRect(
                 x: Self.padding,
                 y: (rect.height - Self.iconSize.height) / 2,
