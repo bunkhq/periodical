@@ -20,5 +20,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         statusItem = StatusItemController(store: store, clock: clock)
+        LoginItem.enableByDefault()
     }
 }
