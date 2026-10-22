@@ -72,6 +72,10 @@ final class StatusItemController: NSObject {
         if NSApp.currentEvent?.type == .rightMouseUp {
             panel.close()
             let menu = NSMenu()
+            let login = menu.addItem(withTitle: "Launch at Login", action: #selector(toggleLoginItem), keyEquivalent: "")
+            login.target = self
+            login.state = LoginItem.isEnabled ? .on : .off
+            menu.addItem(.separator())
             menu.addItem(withTitle: "Quit Periodical", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
             statusItem.menu = menu
             sender.performClick(nil)
@@ -79,6 +83,10 @@ final class StatusItemController: NSObject {
         } else {
             panel.toggle(from: sender)
         }
+    }
+
+    @objc private func toggleLoginItem() {
+        LoginItem.set(!LoginItem.isEnabled)
     }
 }
 
