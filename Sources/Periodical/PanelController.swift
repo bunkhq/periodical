@@ -33,6 +33,8 @@ final class PanelLayout {
 final class PanelController: NSObject, NSWindowDelegate {
     private let store: BlockStore
     private let clock: Clock
+    private let prefs: Preferences
+    private let alerts: EndAlerts
     private let panel: DropdownPanel
     private let hosting: NSHostingController<AnyView>
     private let layout = PanelLayout()
@@ -40,9 +42,11 @@ final class PanelController: NSObject, NSWindowDelegate {
     private weak var button: NSStatusBarButton?
     private var closedAt = Date.distantPast
 
-    init(store: BlockStore, clock: Clock) {
+    init(store: BlockStore, clock: Clock, prefs: Preferences, alerts: EndAlerts) {
         self.store = store
         self.clock = clock
+        self.prefs = prefs
+        self.alerts = alerts
         hosting = NSHostingController(rootView: AnyView(EmptyView()))
         hosting.sizingOptions = [.preferredContentSize]
         panel = DropdownPanel(
@@ -73,13 +77,18 @@ final class PanelController: NSObject, NSWindowDelegate {
         }
     }
 
-    private func show(from button: NSStatusBarButton) {
+    /// Opens to setup until it's been finished or skipped, else to `route` (the schedule by default).
+    func show(from button: NSStatusBarButton, route: PanelRoute? = nil) {
+        let route = route ?? (prefs.hasOnboarded ? .schedule : .onboarding)
         guard let buttonWindow = button.window else { return }
+        close()
         self.button = button
+        // An undo offer from an earlier visit shouldn't reappear.
+        store.forgetDeleted()
 
         // Fresh view state on every open.
         hosting.rootView = AnyView(
-            ContentView(store: store, clock: clock, layout: layout, dismiss: { [weak self] in self?.close() })
+            ContentView(store: store, clock: clock, prefs: prefs, alerts: alerts, layout: layout, route: route, dismiss: { [weak self] in self?.close() })
                 .id(UUID())
         )
         hosting.view.layoutSubtreeIfNeeded()

@@ -51,6 +51,9 @@ private func hm(_ h: Int, _ m: Int) -> Int { h * 60 + m }
     ("in five minutes", hm(10, 21)),
     ("20 minutes from now", hm(10, 36)),
     ("now", hm(10, 16)),
+    // The edit form prefills the system's short time, which uses a narrow no-break space before AM/PM.
+    ("9:05\u{202F}AM", hm(9, 5)),
+    ("12:30 PM", hm(12, 30)),
 ])
 func parses(input: String, expected: Int) {
     #expect(parse(input) == expected, "\(input)")
@@ -89,7 +92,7 @@ func parsesRelativeToStart(input: String, expected: Int) {
     let earlier = TimeBlock(name: "Homeroom", start: hm(8, 0), end: hm(8, 10), weekdays: [5], color: "#FF3A3A")
     #expect(earlier.phase(on: now, now: now, calendar: calendar) == .passed)
 
-    let current = Schedule.current([later, earlier, block], now: now, calendar: calendar)
+    let current = Schedule.current([later, earlier, block], settings: ScheduleSettings(), now: now, calendar: calendar)
     #expect(current?.0.name == "Econ")
 }
 

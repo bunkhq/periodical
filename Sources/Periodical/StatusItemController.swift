@@ -7,32 +7,25 @@ import SwiftUI
 final class StatusItemController: NSObject {
     private let store: BlockStore
     private let clock: Clock
+    private let prefs: Preferences
+    private let alerts: EndAlerts
     private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     private let panel: PanelController
     private let updater = Updater()
     private var lastRendered: MenuBarPill?
-    private var showingIdle = false
+    private var lastIdle: IdleState?
 
-    private static let fillButtonKey = "fillMenuBarButton"
-
-    /// When on, the block color fills the whole rounded menu bar button instead of a box inside it. Off by default.
-    private var fillButton: Bool {
-        get { UserDefaults.standard.bool(forKey: Self.fillButtonKey) }
-        set { UserDefaults.standard.set(newValue, forKey: Self.fillButtonKey) }
+    private struct IdleState: Equatable {
+        let dayOff: Bool
+        let tooltip: String
     }
 
-    private static let showTitleKey = "showCourseNameInMenuBar"
-
-    /// When on, the course name follows the timer in the menu bar button. On by default.
-    private var showTitle: Bool {
-        get { UserDefaults.standard.object(forKey: Self.showTitleKey) as? Bool ?? true }
-        set { UserDefaults.standard.set(newValue, forKey: Self.showTitleKey) }
-    }
-
-    init(store: BlockStore, clock: Clock) {
+    init(store: BlockStore, clock: Clock, prefs: Preferences, alerts: EndAlerts) {
         self.store = store
         self.clock = clock
-        self.panel = PanelController(store: store, clock: clock)
+        self.prefs = prefs
+        self.alerts = alerts
+        self.panel = PanelController(store: store, clock: clock, prefs: prefs, alerts: alerts)
         super.init()
 
         if let button = statusItem.button {
@@ -44,40 +37,92 @@ final class StatusItemController: NSObject {
             button.layer?.cornerCurve = .continuous
         }
         clock.onTick { [weak self] in self?.refresh() }
-        store.onChange = { [weak self] in self?.refresh() }
+        store.onChange = { [weak self] in self?.redraw() }
+        prefs.onChange = { [weak self] in self?.redraw() }
+        refresh()
+
+        if !prefs.hasOnboarded {
+            if store.blocks.isEmpty {
+                // First launch: open setup under the menu bar item so there's no hunting for it.
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { [weak self] in
+                    guard let self, let button = self.statusItem.button else { return }
+                    self.panel.show(from: button)
+                }
+            } else {
+                // People upgrading with a schedule already in place skip setup.
+                prefs.hasOnboarded = true
+            }
+        }
+    }
+
+    /// Forces a repaint after a setting or the schedule changes.
+    private func redraw() {
+        lastRendered = nil
+        lastIdle = nil
         refresh()
     }
 
     private func refresh() {
         guard let button = statusItem.button else { return }
+        let now = Date()
+        let current = Schedule.current(store.blocks, settings: store.settings, now: now)
+        let next = Schedule.next(store.blocks, settings: store.settings, after: now)
+        alerts.check(current, next: next, minutesBefore: prefs.endAlertMinutes, now: now)
 
-        guard let (block, phase) = Schedule.current(store.blocks, now: Date()) else {
-            if !showingIdle {
-                button.image = Self.idleImage
-                button.toolTip = "Periodical"
-                setButtonFill(nil)
-                lastRendered = nil
-                showingIdle = true
-            }
+        guard let (block, phase) = current else {
+            showIdle(next: next, now: now)
             return
         }
 
         let pill: MenuBarPill
         switch phase {
         case .active(let seconds):
-            pill = MenuBarPill(icon: .active, timer: DurationFormat.string(seconds: seconds), title: block.name, color: block.color, fillsButton: fillButton, showsTitle: showTitle)
+            pill = MenuBarPill(icon: .active, timer: DurationFormat.string(seconds: seconds), title: block.name, color: block.color, fillsButton: prefs.fillMenuBarButton, showsTitle: prefs.showNameInMenuBar)
         case .upcoming(let seconds):
-            pill = MenuBarPill(icon: .starting, timer: DurationFormat.string(seconds: seconds), title: block.name, color: block.color, fillsButton: fillButton, showsTitle: showTitle)
+            pill = MenuBarPill(icon: .starting, timer: DurationFormat.string(seconds: seconds), title: block.name, color: block.color, fillsButton: prefs.fillMenuBarButton, showsTitle: prefs.showNameInMenuBar)
         case .passed:
             return
         }
         guard pill != lastRendered else { return }
         lastRendered = pill
-        showingIdle = false
+        lastIdle = nil
 
+        button.title = ""
+        button.imagePosition = .imageOnly
         button.image = pill.image()
         setButtonFill(pill.fillsButton ? NSColor(hex: block.color) : nil)
+        let verb = if case .active = phase { "ends" } else { "starts" }
         button.toolTip = "\(block.name) · \(TimeParser.format(minutes: block.start)) – \(TimeParser.format(minutes: block.end))"
+        button.setAccessibilityLabel("\(block.name) \(verb) in \(pill.timer)")
+    }
+
+    /// Hourglass alone, or with "Off" on a day off so a paused schedule is never mistaken for an empty one.
+    private func showIdle(next: (block: TimeBlock, start: Date)?, now: Date) {
+        guard let button = statusItem.button else { return }
+        let today = CalendarDay(now)
+        let dayOff = store.settings.isDayOff(today)
+        var tooltip: String
+        if store.blocks.isEmpty {
+            tooltip = "Periodical · Click to add your first block"
+        } else if let next {
+            tooltip = "Next: \(next.block.name) · \(RelativeDay.string(for: next.start, now: now))"
+        } else {
+            tooltip = "Nothing scheduled in the next three weeks"
+        }
+        if dayOff { tooltip = "Day off · " + tooltip }
+
+        let state = IdleState(dayOff: dayOff, tooltip: tooltip)
+        guard state != lastIdle else { return }
+        lastIdle = state
+        lastRendered = nil
+
+        button.image = Self.idleImage
+        button.title = dayOff ? "Off" : ""
+        button.font = .systemFont(ofSize: 12, weight: .medium)
+        button.imagePosition = dayOff ? .imageLeading : .imageOnly
+        button.toolTip = tooltip
+        button.setAccessibilityLabel(tooltip)
+        setButtonFill(nil)
     }
 
     /// Paints the button itself as a capsule, so the color reaches the edges of the menu bar highlight.
@@ -100,29 +145,52 @@ final class StatusItemController: NSObject {
     @objc private func clicked(_ sender: NSStatusBarButton) {
         if NSApp.currentEvent?.type == .rightMouseUp {
             panel.close()
-            let menu = NSMenu()
-            menu.autoenablesItems = false
-            let login = menu.addItem(withTitle: "Launch at Login", action: #selector(toggleLoginItem), keyEquivalent: "")
-            login.target = self
-            login.state = LoginItem.isEnabled ? .on : .off
-            let fill = menu.addItem(withTitle: "Fill Menu Bar Button", action: #selector(toggleFillButton), keyEquivalent: "")
-            fill.target = self
-            fill.state = fillButton ? .on : .off
-            let title = menu.addItem(withTitle: "Show Course Name", action: #selector(toggleShowTitle), keyEquivalent: "")
-            title.target = self
-            title.state = showTitle ? .on : .off
-            menu.addItem(.separator())
-            let update = menu.addItem(withTitle: updateMenuTitle, action: #selector(checkForUpdates), keyEquivalent: "")
-            update.target = self
-            update.isEnabled = updater.state == .idle
-            menu.addItem(.separator())
-            menu.addItem(withTitle: "Quit Periodical", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
-            statusItem.menu = menu
+            statusItem.menu = makeMenu()
             sender.performClick(nil)
             statusItem.menu = nil
         } else {
             panel.toggle(from: sender)
         }
+    }
+
+    private func makeMenu() -> NSMenu {
+        let menu = NSMenu()
+        menu.autoenablesItems = false
+        @discardableResult
+        func item(_ title: String, _ action: Selector, on: Bool? = nil, key: String = "") -> NSMenuItem {
+            let item = menu.addItem(withTitle: title, action: action, keyEquivalent: key)
+            item.target = self
+            if let on { item.state = on ? .on : .off }
+            return item
+        }
+
+        let offToday = store.settings.isDayOff(CalendarDay(Date()))
+        item(offToday ? "Back On Today" : "Take Today Off", #selector(toggleDayOff))
+        item("Settings…", #selector(openSettings), key: ",")
+        menu.addItem(.separator())
+        item("Fill Menu Bar Button", #selector(toggleFillButton), on: prefs.fillMenuBarButton)
+        item("Show Block Name", #selector(toggleShowTitle), on: prefs.showNameInMenuBar)
+        item("Launch at Login", #selector(toggleLoginItem), on: LoginItem.isEnabled)
+        menu.addItem(.separator())
+        item(updateMenuTitle, #selector(checkForUpdates)).isEnabled = updater.state == .idle
+        menu.addItem(.separator())
+        menu.addItem(withTitle: "Quit Periodical", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
+        return menu
+    }
+
+    @objc private func toggleDayOff() {
+        let today = CalendarDay(Date())
+        if store.settings.isDayOff(today) {
+            store.resume(on: today)
+        } else {
+            store.addDayOff(DayOff(start: today, end: today))
+        }
+    }
+
+    @objc private func openSettings() {
+        guard let button = statusItem.button else { return }
+        // Let the menu finish closing before the panel takes focus.
+        DispatchQueue.main.async { self.panel.show(from: button, route: .settings) }
     }
 
     @objc private func toggleLoginItem() {
@@ -142,15 +210,11 @@ final class StatusItemController: NSObject {
     }
 
     @objc private func toggleFillButton() {
-        fillButton.toggle()
-        lastRendered = nil
-        refresh()
+        prefs.fillMenuBarButton.toggle()
     }
 
     @objc private func toggleShowTitle() {
-        showTitle.toggle()
-        lastRendered = nil
-        refresh()
+        prefs.showNameInMenuBar.toggle()
     }
 }
 
@@ -178,9 +242,7 @@ struct MenuBarPill: Equatable {
     }
 
     func image() -> NSImage {
-        let foreground = NSColor(hex: color).relativeLuminance > 0.55
-            ? NSColor.black.withAlphaComponent(0.85)
-            : NSColor.white
+        let foreground = NSColor.foreground(onHex: color)
         let text = NSMutableAttributedString(string: timer, attributes: [
             .font: NSFont.monospacedDigitSystemFont(ofSize: 13, weight: .bold),
             .foregroundColor: foreground,
