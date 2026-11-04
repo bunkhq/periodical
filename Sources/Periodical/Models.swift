@@ -21,10 +21,19 @@ final class BlockStore {
     private var blocksURL: URL { directory.appendingPathComponent("timeblocks.json") }
     private var settingsURL: URL { directory.appendingPathComponent("settings.json") }
 
-    /// `directory` defaults to `~/Library/Application Support/Periodical`.
+    /// Where the schedule lives by default: `~/Library/Application Support/Periodical` for the installed app.
+    /// Development builds (bundle id ending in `.dev`, as `scripts/dev.sh` makes, or `swift run` with no bundle)
+    /// use `Periodical Dev` instead, so resetting a dev build never touches the real schedule.
+    static var defaultDirectory: URL {
+        let id = Bundle.main.bundleIdentifier
+        let isDev = id == nil || id!.hasSuffix(".dev")
+        return FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+            .appendingPathComponent(isDev ? "Periodical Dev" : "Periodical", isDirectory: true)
+    }
+
+    /// `directory` defaults to `defaultDirectory`.
     init(directory: URL? = nil) {
-        let dir = directory ?? FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent("Periodical", isDirectory: true)
+        let dir = directory ?? Self.defaultDirectory
         try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
         self.directory = dir
         if let data = try? Data(contentsOf: blocksURL),
