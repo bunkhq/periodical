@@ -9,6 +9,7 @@ final class StatusItemController: NSObject {
     private let clock: Clock
     private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     private let panel: PanelController
+    private let updater = Updater()
     private var lastRendered: MenuBarPill?
     private var showingIdle = false
 
@@ -100,6 +101,7 @@ final class StatusItemController: NSObject {
         if NSApp.currentEvent?.type == .rightMouseUp {
             panel.close()
             let menu = NSMenu()
+            menu.autoenablesItems = false
             let login = menu.addItem(withTitle: "Launch at Login", action: #selector(toggleLoginItem), keyEquivalent: "")
             login.target = self
             login.state = LoginItem.isEnabled ? .on : .off
@@ -109,6 +111,10 @@ final class StatusItemController: NSObject {
             let title = menu.addItem(withTitle: "Show Course Name", action: #selector(toggleShowTitle), keyEquivalent: "")
             title.target = self
             title.state = showTitle ? .on : .off
+            menu.addItem(.separator())
+            let update = menu.addItem(withTitle: updateMenuTitle, action: #selector(checkForUpdates), keyEquivalent: "")
+            update.target = self
+            update.isEnabled = updater.state == .idle
             menu.addItem(.separator())
             menu.addItem(withTitle: "Quit Periodical", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
             statusItem.menu = menu
@@ -121,6 +127,18 @@ final class StatusItemController: NSObject {
 
     @objc private func toggleLoginItem() {
         LoginItem.set(!LoginItem.isEnabled)
+    }
+
+    private var updateMenuTitle: String {
+        switch updater.state {
+        case .idle: "Check for Updates…"
+        case .checking: "Checking for Updates…"
+        case .downloading: "Downloading Update…"
+        }
+    }
+
+    @objc private func checkForUpdates() {
+        updater.checkForUpdates()
     }
 
     @objc private func toggleFillButton() {
