@@ -5,6 +5,8 @@ cd "$(dirname "$0")/.."
 
 VERSION="${VERSION:-0.4.0}"
 BUILD="${BUILD:-$(git rev-list --count HEAD 2>/dev/null || echo 1)}"
+# dev.sh sets this to app.periodical.Periodical.dev so dev builds keep their own preferences and data folder.
+BUNDLE_ID="${BUNDLE_ID:-app.periodical.Periodical}"
 
 swift build -c release
 APP=build/Periodical.app
@@ -20,7 +22,7 @@ cat > "$APP/Contents/Info.plist" <<PLIST
 <dict>
     <key>CFBundleName</key><string>Periodical</string>
     <key>CFBundleDisplayName</key><string>Periodical</string>
-    <key>CFBundleIdentifier</key><string>app.periodical.Periodical</string>
+    <key>CFBundleIdentifier</key><string>$BUNDLE_ID</string>
     <key>CFBundleExecutable</key><string>Periodical</string>
     <key>CFBundlePackageType</key><string>APPL</string>
     <key>CFBundleShortVersionString</key><string>$VERSION</string>
