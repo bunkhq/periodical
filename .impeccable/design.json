@@ -1,0 +1,921 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-04T18:14:12+00:00",
+  "title": "Design System: Periodical",
+  "extensions": {
+    "colorMeta": {
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#1C1C1E",
+        "tonalRamp": [
+          "#0B0B0C",
+          "#252526",
+          "#424244",
+          "#616163",
+          "#828284",
+          "#A5A5A7",
+          "#C9C9CA",
+          "#EEEEEF"
+        ]
+      },
+      "ink-deep": {
+        "role": "tertiary",
+        "displayName": "Deep Ink",
+        "canonical": "#0B0B0C",
+        "tonalRamp": [
+          "#0B0B0B",
+          "#252526",
+          "#424243",
+          "#616162",
+          "#828283",
+          "#A5A5A6",
+          "#C9C9CA",
+          "#EEEEEF"
+        ]
+      },
+      "panel-light": {
+        "role": "neutral",
+        "displayName": "Panel White",
+        "canonical": "#FFFFFF",
+        "tonalRamp": [
+          "#0B0B0B",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#A5A5A5",
+          "#C9C9C9",
+          "#EEEEEE"
+        ]
+      },
+      "panel-dark": {
+        "role": "neutral",
+        "displayName": "Panel Night",
+        "canonical": "Color(white: 0.12)",
+        "tonalRamp": [
+          "#0B0B0B",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#A5A5A5",
+          "#C9C9C9",
+          "#EEEEEE"
+        ]
+      },
+      "label-light": {
+        "role": "neutral",
+        "displayName": "Label (light appearance)",
+        "canonical": "Color.primary (NSColor.labelColor)",
+        "tonalRamp": [
+          "#0B0B0B",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#A5A5A5",
+          "#C9C9C9",
+          "#EEEEEE"
+        ]
+      },
+      "label-dark": {
+        "role": "neutral",
+        "displayName": "Label (dark appearance)",
+        "canonical": "Color.primary (NSColor.labelColor)",
+        "tonalRamp": [
+          "#0B0B0B",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#A5A5A5",
+          "#C9C9C9",
+          "#EEEEEE"
+        ]
+      },
+      "now-red": {
+        "role": "tertiary",
+        "displayName": "Now Red",
+        "canonical": "NSColor.systemRed",
+        "tonalRamp": [
+          "#220000",
+          "#5C0000",
+          "#9A0000",
+          "#C30000",
+          "#ED241E",
+          "#FF6454",
+          "#FFAA9C",
+          "#FFE6E1"
+        ]
+      },
+      "foreground-on-pale": {
+        "role": "neutral",
+        "displayName": "On-Color Near-Black",
+        "canonical": "NSColor.black.withAlphaComponent(0.85)",
+        "tonalRamp": [
+          "#0B0B0B",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#A5A5A5",
+          "#C9C9C9",
+          "#EEEEEE"
+        ]
+      },
+      "foreground-on-deep": {
+        "role": "neutral",
+        "displayName": "On-Color White",
+        "canonical": "#FFFFFF",
+        "tonalRamp": [
+          "#0B0B0B",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#A5A5A5",
+          "#C9C9C9",
+          "#EEEEEE"
+        ]
+      },
+      "dot-field-top": {
+        "role": "secondary",
+        "displayName": "Dot Yellow, Top",
+        "canonical": "#FFE45A",
+        "tonalRamp": [
+          "#110A00",
+          "#332300",
+          "#593E00",
+          "#795F00",
+          "#9C8100",
+          "#BCA525",
+          "#D7CA8C",
+          "#F3EFDC"
+        ]
+      },
+      "dot-field-bottom": {
+        "role": "secondary",
+        "displayName": "Dot Yellow, Bottom",
+        "canonical": "#FFC00C",
+        "tonalRamp": [
+          "#160800",
+          "#3E1B00",
+          "#6A3100",
+          "#8D5300",
+          "#B17500",
+          "#D19B00",
+          "#E5C584",
+          "#F7EDDA"
+        ]
+      },
+      "dot-glow": {
+        "role": "secondary",
+        "displayName": "Tile Glow",
+        "canonical": "#FFF6B8",
+        "tonalRamp": [
+          "#0D0B02",
+          "#2B2501",
+          "#4B4300",
+          "#6B6228",
+          "#8D844A",
+          "#AEA773",
+          "#CFCAAC",
+          "#F0EFE5"
+        ]
+      },
+      "dot-rim": {
+        "role": "secondary",
+        "displayName": "Rim Bounce",
+        "canonical": "#FFC21A",
+        "tonalRamp": [
+          "#150800",
+          "#3E1B00",
+          "#693200",
+          "#8C5400",
+          "#B07600",
+          "#D09C00",
+          "#E4C585",
+          "#F7EEDB"
+        ]
+      },
+      "dot-contact": {
+        "role": "secondary",
+        "displayName": "Contact Amber",
+        "canonical": "#9A6200",
+        "tonalRamp": [
+          "#150800",
+          "#3C1C00",
+          "#673300",
+          "#8A5300",
+          "#AE7523",
+          "#CE9958",
+          "#E3C39E",
+          "#F7EDE1"
+        ]
+      },
+      "dot-body-light": {
+        "role": "tertiary",
+        "displayName": "Glossy Ink, Lit",
+        "canonical": "#55555C",
+        "tonalRamp": [
+          "#0B0B0D",
+          "#252529",
+          "#414148",
+          "#606068",
+          "#818189",
+          "#A4A4AB",
+          "#C9C9CD",
+          "#EEEEF0"
+        ]
+      },
+      "dot-body-mid": {
+        "role": "tertiary",
+        "displayName": "Glossy Ink, Mid",
+        "canonical": "#232326",
+        "tonalRamp": [
+          "#0B0B0C",
+          "#252527",
+          "#424245",
+          "#616164",
+          "#828286",
+          "#A4A5A8",
+          "#C9C9CB",
+          "#EEEEEF"
+        ]
+      },
+      "dot-eye-shade": {
+        "role": "tertiary",
+        "displayName": "Eye Shade",
+        "canonical": "#E4E4EC",
+        "tonalRamp": [
+          "#0B0B0D",
+          "#252529",
+          "#414148",
+          "#606067",
+          "#818189",
+          "#A4A4AB",
+          "#C9C9CD",
+          "#EEEEEF"
+        ]
+      },
+      "block-red": {
+        "role": "primary",
+        "displayName": "Block Red",
+        "canonical": "#FF3A3A",
+        "tonalRamp": [
+          "#220000",
+          "#5C0000",
+          "#990000",
+          "#C30000",
+          "#ED222A",
+          "#FF635B",
+          "#FFA99F",
+          "#FFE6E1"
+        ]
+      },
+      "block-coral": {
+        "role": "primary",
+        "displayName": "Block Coral",
+        "canonical": "#FF6B4A",
+        "tonalRamp": [
+          "#1E0100",
+          "#530000",
+          "#8B0000",
+          "#B31E00",
+          "#DB4A29",
+          "#FB785A",
+          "#FFB29F",
+          "#FFE8E1"
+        ]
+      },
+      "block-orange": {
+        "role": "primary",
+        "displayName": "Block Orange",
+        "canonical": "#FF9500",
+        "tonalRamp": [
+          "#1A0400",
+          "#4A0B00",
+          "#7D1800",
+          "#A23F00",
+          "#C86300",
+          "#E88C20",
+          "#F5BC8A",
+          "#FDEBDC"
+        ]
+      },
+      "block-amber": {
+        "role": "primary",
+        "displayName": "Block Amber",
+        "canonical": "#FFB800",
+        "tonalRamp": [
+          "#170700",
+          "#411900",
+          "#6E2E00",
+          "#915000",
+          "#B67200",
+          "#D69800",
+          "#E8C385",
+          "#F8EDDA"
+        ]
+      },
+      "block-yellow": {
+        "role": "primary",
+        "displayName": "Block Yellow",
+        "canonical": "#FFD60A",
+        "tonalRamp": [
+          "#130900",
+          "#382000",
+          "#613900",
+          "#825B00",
+          "#A57D00",
+          "#C5A200",
+          "#DDC980",
+          "#F4EFD9"
+        ]
+      },
+      "block-lime": {
+        "role": "primary",
+        "displayName": "Block Lime",
+        "canonical": "#C7D530",
+        "tonalRamp": [
+          "#0B0D00",
+          "#262900",
+          "#434800",
+          "#616900",
+          "#828C00",
+          "#A3AF1B",
+          "#C7D18A",
+          "#EEF1DC"
+        ]
+      },
+      "block-green": {
+        "role": "primary",
+        "displayName": "Block Green",
+        "canonical": "#34C759",
+        "tonalRamp": [
+          "#001100",
+          "#003300",
+          "#005900",
+          "#007B00",
+          "#009F31",
+          "#48C161",
+          "#9CDCA3",
+          "#E1F5E3"
+        ]
+      },
+      "block-emerald": {
+        "role": "primary",
+        "displayName": "Block Emerald",
+        "canonical": "#1FA463",
+        "tonalRamp": [
+          "#001004",
+          "#00320C",
+          "#00561A",
+          "#00783A",
+          "#099B5B",
+          "#56BD81",
+          "#A1D9B4",
+          "#E3F3E8"
+        ]
+      },
+      "block-forest": {
+        "role": "primary",
+        "displayName": "Block Forest",
+        "canonical": "#0B7A55",
+        "tonalRamp": [
+          "#000F07",
+          "#00301A",
+          "#005331",
+          "#00744F",
+          "#369670",
+          "#68B894",
+          "#A8D5BF",
+          "#E5F2EB"
+        ]
+      },
+      "block-teal": {
+        "role": "primary",
+        "displayName": "Block Teal",
+        "canonical": "#00C7BE",
+        "tonalRamp": [
+          "#00100F",
+          "#00312E",
+          "#005550",
+          "#007770",
+          "#009A92",
+          "#2EBCB4",
+          "#95D8D2",
+          "#E0F3F1"
+        ]
+      },
+      "block-cyan": {
+        "role": "primary",
+        "displayName": "Block Cyan",
+        "canonical": "#30B0C7",
+        "tonalRamp": [
+          "#000F14",
+          "#002D3B",
+          "#004F64",
+          "#007086",
+          "#0093A9",
+          "#4EB5CA",
+          "#9DD4E0",
+          "#E2F2F6"
+        ]
+      },
+      "block-sky": {
+        "role": "primary",
+        "displayName": "Block Sky",
+        "canonical": "#32ADE6",
+        "tonalRamp": [
+          "#000D1A",
+          "#002A4A",
+          "#00497C",
+          "#006BA0",
+          "#008EC5",
+          "#4CB1E4",
+          "#9CD1F0",
+          "#E1F1FB"
+        ]
+      },
+      "block-blue": {
+        "role": "primary",
+        "displayName": "Block Blue",
+        "canonical": "#007AFF",
+        "tonalRamp": [
+          "#000827",
+          "#00196B",
+          "#002EB1",
+          "#0056D8",
+          "#047BFF",
+          "#4DA3FF",
+          "#99CBFF",
+          "#E0F0FF"
+        ]
+      },
+      "block-royal-blue": {
+        "role": "primary",
+        "displayName": "Block Royal Blue",
+        "canonical": "#3F5EFB",
+        "tonalRamp": [
+          "#03052A",
+          "#0D0B71",
+          "#1C15BB",
+          "#3047E3",
+          "#4B6EFF",
+          "#6F98FF",
+          "#A8C6FF",
+          "#E4EEFF"
+        ]
+      },
+      "block-indigo": {
+        "role": "primary",
+        "displayName": "Block Indigo",
+        "canonical": "#5856D6",
+        "tonalRamp": [
+          "#070624",
+          "#1D1262",
+          "#3523A3",
+          "#4F4AC9",
+          "#6D6FF1",
+          "#8F97FF",
+          "#BAC3FF",
+          "#E9EDFF"
+        ]
+      },
+      "block-violet": {
+        "role": "primary",
+        "displayName": "Block Violet",
+        "canonical": "#7B4AE2",
+        "tonalRamp": [
+          "#0E0325",
+          "#2D0065",
+          "#4E00A7",
+          "#6B36CE",
+          "#8B5DF6",
+          "#AB88FF",
+          "#CBBBFF",
+          "#EFEBFF"
+        ]
+      },
+      "block-purple": {
+        "role": "primary",
+        "displayName": "Block Purple",
+        "canonical": "#AF52DE",
+        "tonalRamp": [
+          "#15011F",
+          "#3C0056",
+          "#660090",
+          "#8927B5",
+          "#AD4FDB",
+          "#CD7CF9",
+          "#E2B4FE",
+          "#F6E8FF"
+        ]
+      },
+      "block-orchid": {
+        "role": "primary",
+        "displayName": "Block Orchid",
+        "canonical": "#D14FC4",
+        "tonalRamp": [
+          "#1A0017",
+          "#480043",
+          "#790071",
+          "#9F1594",
+          "#C543B9",
+          "#E672D9",
+          "#F4AEE9",
+          "#FDE7F9"
+        ]
+      },
+      "block-pink": {
+        "role": "primary",
+        "displayName": "Block Pink",
+        "canonical": "#FF2D92",
+        "tonalRamp": [
+          "#21000B",
+          "#5A0024",
+          "#960041",
+          "#BF0060",
+          "#EA0081",
+          "#FF59A4",
+          "#FFA4C8",
+          "#FFE4EE"
+        ]
+      },
+      "block-rose": {
+        "role": "primary",
+        "displayName": "Block Rose",
+        "canonical": "#FF375F",
+        "tonalRamp": [
+          "#220002",
+          "#5B0006",
+          "#980010",
+          "#C20030",
+          "#EC1C50",
+          "#FF6078",
+          "#FFA8AE",
+          "#FFE5E6"
+        ]
+      },
+      "block-raspberry": {
+        "role": "primary",
+        "displayName": "Block Raspberry",
+        "canonical": "#C2185B",
+        "tonalRamp": [
+          "#1F0007",
+          "#54001B",
+          "#8C0032",
+          "#B40050",
+          "#DD3A71",
+          "#FE6D95",
+          "#FFACBF",
+          "#FFE6EB"
+        ]
+      },
+      "block-wine": {
+        "role": "primary",
+        "displayName": "Block Wine",
+        "canonical": "#7A1F3D",
+        "tonalRamp": [
+          "#180409",
+          "#450C1F",
+          "#751939",
+          "#9A3D57",
+          "#C05F78",
+          "#E0869B",
+          "#F0B8C3",
+          "#FBE9EC"
+        ]
+      },
+      "block-tan": {
+        "role": "primary",
+        "displayName": "Block Tan",
+        "canonical": "#A2845E",
+        "tonalRamp": [
+          "#100A03",
+          "#32210A",
+          "#573C17",
+          "#785B36",
+          "#9A7D57",
+          "#BCA07E",
+          "#D7C6B2",
+          "#F3EEE7"
+        ]
+      },
+      "block-brown": {
+        "role": "primary",
+        "displayName": "Block Brown",
+        "canonical": "#6D4C3D",
+        "tonalRamp": [
+          "#110906",
+          "#332016",
+          "#59392B",
+          "#7A5849",
+          "#9D7969",
+          "#BE9D8E",
+          "#D9C4BB",
+          "#F3EDEA"
+        ]
+      },
+      "block-gray": {
+        "role": "primary",
+        "displayName": "Block Gray",
+        "canonical": "#8E8E93",
+        "tonalRamp": [
+          "#0B0B0C",
+          "#252527",
+          "#414146",
+          "#616165",
+          "#828287",
+          "#A4A4A9",
+          "#C9C9CB",
+          "#EEEEEF"
+        ]
+      },
+      "block-slate": {
+        "role": "primary",
+        "displayName": "Block Slate",
+        "canonical": "#6D7B8D",
+        "tonalRamp": [
+          "#080B10",
+          "#1E2630",
+          "#364353",
+          "#556274",
+          "#768496",
+          "#99A6B7",
+          "#C2CAD4",
+          "#ECEFF2"
+        ]
+      },
+      "block-graphite": {
+        "role": "primary",
+        "displayName": "Block Graphite",
+        "canonical": "#48484A",
+        "tonalRamp": [
+          "#0B0B0C",
+          "#252526",
+          "#424244",
+          "#616163",
+          "#828284",
+          "#A5A5A7",
+          "#C9C9CA",
+          "#EEEEEF"
+        ]
+      },
+      "block-black": {
+        "role": "primary",
+        "displayName": "Block Black",
+        "canonical": "#1C1C1E",
+        "tonalRamp": [
+          "#0B0B0C",
+          "#252526",
+          "#424244",
+          "#616163",
+          "#828284",
+          "#A5A5A7",
+          "#C9C9CA",
+          "#EEEEEF"
+        ]
+      },
+      "block-navy": {
+        "role": "primary",
+        "displayName": "Block Navy",
+        "canonical": "#2E3A87",
+        "tonalRamp": [
+          "#06091C",
+          "#171F4F",
+          "#2C3885",
+          "#4959A9",
+          "#687BCF",
+          "#8CA0ED",
+          "#BAC7F6",
+          "#E9EEFD"
+        ]
+      },
+      "block-deep-teal": {
+        "role": "primary",
+        "displayName": "Block Deep Teal",
+        "canonical": "#0F4C5C",
+        "tonalRamp": [
+          "#030D11",
+          "#052A34",
+          "#0B4A5A",
+          "#326A7B",
+          "#548C9D",
+          "#7DAEBE",
+          "#B2CFD9",
+          "#E7F0F3"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Countdown on the focused block (monospaced digits)."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Onboarding and Add Block screen titles."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Panel headers: Today, Settings, editor titles."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Block names (medium), setting rows (regular), button labels (semibold)."
+      },
+      "body-small": {
+        "displayName": "Body Small",
+        "purpose": "Trailing times, empty states, chips, Undo bar."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Header subtitles, setting details, rail start times."
+      },
+      "caption": {
+        "displayName": "Caption",
+        "purpose": "Rail end times, rotation letters, the Now label."
+      },
+      "menu-bar-timer": {
+        "displayName": "Menu Bar Timer",
+        "purpose": "Menu bar pill timer; block name follows at regular weight."
+      }
+    },
+    "shadows": [
+      {
+        "name": "panel-window",
+        "value": "AppKit NSPanel hasShadow (system)",
+        "purpose": "The only shadow in the app UI, under the bubble panel."
+      },
+      {
+        "name": "icon-tile",
+        "value": "0 10px 12px rgba(0,0,0,0.24)",
+        "purpose": "App icon tile drop shadow (1024 grid). Brand assets only."
+      },
+      {
+        "name": "dot-contact",
+        "value": "ellipse #9A6200 at 50%, Gaussian blur 24",
+        "purpose": "Dot's contact shadow on the icon tile. Brand assets only."
+      }
+    ],
+    "motion": [
+      {
+        "name": "toggle",
+        "value": "easeOut 0.15s",
+        "purpose": "Toggle knob slide, tab and picker changes."
+      },
+      {
+        "name": "route",
+        "value": "easeOut 0.18s",
+        "purpose": "Settings page and picker reveal transitions."
+      },
+      {
+        "name": "undo-bar",
+        "value": "easeOut 0.2s, move from bottom + opacity",
+        "purpose": "Undo bar appearing after a delete."
+      },
+      {
+        "name": "block-press",
+        "value": "brightness -0.03 hover, -0.08 pressed",
+        "purpose": "Block bar pointer feedback instead of lift."
+      }
+    ],
+    "breakpoints": []
+  },
+  "components": [
+    {
+      "name": "Filled Button",
+      "kind": "button",
+      "refersTo": "button-filled-full",
+      "description": "Primary action, label-color fill with inverted text; full width in setup and the first-run panel.",
+      "html": "<button class=\"ds-btn-filled\">Add Your First Block</button>",
+      "css": ".ds-btn-filled { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; font-size: 13px; font-weight: 600; color: #FFFFFF; background: #000000; border: none; border-radius: 10px; padding: 0 16px; min-height: 36px; width: 280px; cursor: pointer; transition: opacity .15s ease-out; } .ds-btn-filled:hover { opacity: .9; } .ds-btn-filled:active { opacity: .7; } .ds-btn-filled:focus-visible { outline: 2px solid rgba(0,0,0,.4); outline-offset: 2px; } .ds-btn-filled:disabled { opacity: .25; }"
+    },
+    {
+      "name": "Outlined Button",
+      "kind": "button",
+      "refersTo": "button-outlined",
+      "description": "The panel's Add Block: clear fill, 1.5pt outline at 35% label.",
+      "html": "<button class=\"ds-btn-outlined\"><span aria-hidden=\"true\">+</span> Add Block</button>",
+      "css": ".ds-btn-outlined { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; font-size: 13px; font-weight: 600; color: #000; background: transparent; border: 1.5px solid rgba(0,0,0,.35); border-radius: 10px; min-height: 36px; width: 280px; cursor: pointer; transition: background .15s ease-out; } .ds-btn-outlined:hover { background: rgba(0,0,0,.03); } .ds-btn-outlined:active { background: rgba(0,0,0,.08); } .ds-btn-outlined:focus-visible { outline: 2px solid rgba(0,0,0,.4); outline-offset: 2px; }"
+    },
+    {
+      "name": "Chip Picker",
+      "kind": "chip",
+      "refersTo": "chip-selected",
+      "description": "One choice from a few; selected fills with ink and inverts.",
+      "html": "<div class=\"ds-chips\"><button class=\"ds-chip\">5 min</button><button class=\"ds-chip ds-chip-on\">2 min</button><button class=\"ds-chip\">1 min</button></div>",
+      "css": ".ds-chips { display: flex; gap: 5px; width: 280px; } .ds-chip { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; flex: 1; font-size: 12px; color: #000; background: rgba(0,0,0,.06); border: none; border-radius: 999px; min-height: 28px; cursor: pointer; } .ds-chip:hover { background: rgba(0,0,0,.09); } .ds-chip:focus-visible { outline: 2px solid rgba(0,0,0,.4); outline-offset: 2px; } .ds-chip-on, .ds-chip-on:hover { background: #000; color: #fff; font-weight: 600; }"
+    },
+    {
+      "name": "Weekday Circles",
+      "kind": "nav",
+      "refersTo": "weekday-circle-selected",
+      "description": "Day navigation: 32pt circles, selected inverted, today ringed, rotation letters below.",
+      "html": "<div class=\"ds-week\"><button class=\"ds-day\"><span>S</span><small>&nbsp;</small></button><button class=\"ds-day\"><span>M</span><small>B</small></button><button class=\"ds-day ds-today\"><span>T</span><small>A</small></button><button class=\"ds-day ds-sel\"><span>W</span><small>A</small></button><button class=\"ds-day\"><span>T</span><small>B</small></button><button class=\"ds-day\"><span>F</span><small>A</small></button><button class=\"ds-day\"><span>S</span><small>&nbsp;</small></button></div>",
+      "css": ".ds-week { display: flex; width: 292px; } .ds-day { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; background: none; border: none; padding: 0; cursor: pointer; } .ds-day span { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; color: #000; background: rgba(0,0,0,.06); } .ds-day small { font-size: 10px; font-weight: 600; color: rgba(0,0,0,.5); } .ds-day:hover span { background: rgba(0,0,0,.1); } .ds-day:focus-visible span { outline: 2px solid rgba(0,0,0,.4); outline-offset: 2px; } .ds-today span { box-shadow: inset 0 0 0 1.5px rgba(0,0,0,.5); font-weight: 700; } .ds-sel span, .ds-sel:hover span { background: #000; color: #fff; font-weight: 700; }"
+    },
+    {
+      "name": "Block Timeline",
+      "kind": "custom",
+      "refersTo": "block-focus",
+      "description": "Signature: time rail plus color bars; the running block large with countdown and progress, text color by luminance.",
+      "html": "<div class=\"ds-tl\"><div class=\"ds-row\"><div class=\"ds-rail\"><b>10:10</b><i>11:00</i></div><button class=\"ds-bar ds-focus\" style=\"background:#007AFF;color:#fff\"><span class=\"ds-name\">English</span><span class=\"ds-count\"><svg class=\"ds-hg\" viewBox=\"0 0 16 20\" aria-hidden=\"true\"><path fill-rule=\"evenodd\" fill=\"currentColor\" d=\"M1.333 0C.596 0 0 .559 0 1.25S.596 2.5 1.333 2.5v.43c0 1.656.704 3.246 1.954 4.418L6.117 10 3.288 12.652C2.038 13.824 1.333 15.414 1.333 17.07v.43C.596 17.5 0 18.059 0 18.75S.596 20 1.333 20h13.334c.737 0 1.333-.559 1.333-1.25s-.596-1.25-1.333-1.25v-.43c0-1.656-.704-3.246-1.954-4.418L9.883 10l2.83-2.652c1.25-1.172 1.954-2.762 1.954-4.418V2.5C15.404 2.5 16 1.941 16 1.25S15.404 0 14.667 0H1.333zM12 2.93V2.5H4v.43c0 .996.42 1.949 1.171 2.652L8 8.234l2.829-2.652C11.579 4.879 12 3.926 12 2.93z\"/></svg><strong>36m 19s</strong><em>left</em></span><span class=\"ds-prog\"><span style=\"width:28%\"></span></span></button></div><div class=\"ds-row\"><div class=\"ds-rail\"><b>11:05</b><i>11:35</i></div><button class=\"ds-bar\" style=\"background:#FFD60A;color:rgba(0,0,0,.85)\"><span class=\"ds-name\">Lunch</span><span class=\"ds-trail\">in 42 min</span></button></div><div class=\"ds-row\"><div class=\"ds-rail\"><b>11:40</b><i>12:30</i></div><button class=\"ds-bar\" style=\"background:#AF52DE;color:#fff\"><span class=\"ds-name\">Calculus</span><span class=\"ds-trail\">in 1 hr 17 min</span></button></div></div>",
+      "css": ".ds-tl { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; display: flex; flex-direction: column; gap: 6px; width: 292px; font-variant-numeric: tabular-nums; } .ds-row { display: flex; gap: 10px; align-items: flex-start; } .ds-rail { width: 58px; flex: none; text-align: right; padding-top: 4px; display: flex; flex-direction: column; gap: 1px; } .ds-rail b { font-size: 11px; font-weight: 500; color: rgba(0,0,0,.5); } .ds-rail i { font-style: normal; font-size: 10px; color: rgba(0,0,0,.26); } .ds-bar { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; flex: 1; display: flex; align-items: center; justify-content: space-between; height: 36px; padding: 0 12px; border: none; border-radius: 10px; text-align: left; cursor: pointer; transition: filter .12s ease-out; } .ds-bar:hover { filter: brightness(.97); } .ds-bar:active { filter: brightness(.92); } .ds-bar:focus-visible { outline: 2px solid rgba(0,0,0,.4); outline-offset: 2px; } .ds-name { font-size: 13px; font-weight: 500; } .ds-trail { font-size: 12px; opacity: .85; } .ds-focus { height: auto; flex-direction: column; align-items: stretch; gap: 2px; padding: 10px 12px 11px; } .ds-count { display: flex; align-items: center; gap: 7px; } .ds-hg { width: 14px; height: 17.5px; } .ds-count strong { font-size: 24px; font-weight: 700; } .ds-count em { font-style: normal; font-size: 12px; font-weight: 500; opacity: .85; align-self: flex-end; margin-bottom: 4px; } .ds-prog { display: block; height: 3px; border-radius: 999px; background: rgba(255,255,255,.3); margin-top: 6px; } .ds-prog span { display: block; height: 3px; border-radius: 999px; background: currentColor; }"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "text-field",
+      "description": "40pt field, 5% tint, hairline that strengthens on focus.",
+      "html": "<input class=\"ds-field\" placeholder=\"Block name\">",
+      "css": ".ds-field { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; font-size: 15px; width: 260px; height: 40px; padding: 0 10px; background: rgba(0,0,0,.05); border: 1px solid rgba(0,0,0,.15); border-radius: 8px; color: #000; outline: none; transition: border-color .15s ease-out; } .ds-field:hover { border-color: rgba(0,0,0,.25); } .ds-field:focus-visible, .ds-field:focus { border-color: rgba(0,0,0,.4); }"
+    },
+    {
+      "name": "Settings Card with Toggle Rows",
+      "kind": "card",
+      "refersTo": "settings-card",
+      "description": "Rows on a 4% card, hairline dividers inset 12pt, switch drawn in ink.",
+      "html": "<div class=\"ds-card\"><button class=\"ds-trow\" role=\"switch\" aria-checked=\"true\"><span><b>Show block name</b><small>Next to the countdown</small></span><span class=\"ds-sw ds-on\"></span></button><hr><button class=\"ds-trow\" role=\"switch\" aria-checked=\"false\"><span><b>Fill with block color</b><small>Color the whole menu bar button</small></span><span class=\"ds-sw\"></span></button></div>",
+      "css": ".ds-card { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; width: 292px; background: rgba(0,0,0,.04); border-radius: 10px; overflow: hidden; } .ds-card hr { border: none; height: 1px; background: rgba(0,0,0,.1); margin: 0 0 0 12px; } .ds-trow { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; padding: 9px 12px; background: transparent; border: none; text-align: left; cursor: pointer; } .ds-trow:hover { background: rgba(0,0,0,.03); } .ds-trow:focus-visible { outline: 2px solid rgba(0,0,0,.4); outline-offset: -2px; } .ds-trow b { display: block; font-size: 13px; font-weight: 400; color: #000; } .ds-trow small { display: block; font-size: 11px; color: rgba(0,0,0,.5); margin-top: 1px; } .ds-sw { position: relative; flex: none; width: 30px; height: 18px; border-radius: 999px; background: rgba(0,0,0,.15); transition: background .15s ease-out; } .ds-sw::after { content: ''; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: #fff; transition: transform .15s ease-out; } .ds-on { background: #000; } .ds-on::after { transform: translateX(12px); }"
+    },
+    {
+      "name": "Menu Bar Pill",
+      "kind": "custom",
+      "refersTo": "menu-bar-pill",
+      "description": "Status item: hourglass, bold tabular timer, optional name, on the block color.",
+      "html": "<span class=\"ds-pill\" style=\"background:#007AFF;color:#fff\"><svg class=\"ds-hg\" viewBox=\"0 0 16 20\" aria-hidden=\"true\"><path fill-rule=\"evenodd\" fill=\"currentColor\" d=\"M1.333 0C.596 0 0 .559 0 1.25S.596 2.5 1.333 2.5v.43c0 1.656.704 3.246 1.954 4.418L6.117 10 3.288 12.652C2.038 13.824 1.333 15.414 1.333 17.07v.43C.596 17.5 0 18.059 0 18.75S.596 20 1.333 20h13.334c.737 0 1.333-.559 1.333-1.25s-.596-1.25-1.333-1.25v-.43c0-1.656-.704-3.246-1.954-4.418L9.883 10l2.83-2.652c1.25-1.172 1.954-2.762 1.954-4.418V2.5C15.404 2.5 16 1.941 16 1.25S15.404 0 14.667 0H1.333zM12 2.93V2.5H4v.43c0 .996.42 1.949 1.171 2.652L8 8.234l2.829-2.652C11.579 4.879 12 3.926 12 2.93z\"/></svg><b>12m 4s</b><span>· English</span></span>",
+      "css": ".ds-pill { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; display: inline-flex; align-items: center; gap: 4px; height: 20px; padding: 0 6px; border-radius: 5px; font-size: 13px; font-variant-numeric: tabular-nums; } .ds-pill .ds-hg { width: 9px; height: 11.25px; } .ds-pill b { font-weight: 700; } .ds-pill span { font-weight: 400; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Quiet Bell",
+    "overview": "Periodical is a native macOS menu bar utility, and its interface behaves like one: SF system type, SF Symbols, a 320pt popover bubble with an arrow pointing at its menu bar button, and chrome built entirely from the system label color at stepped opacities. It follows light and dark appearance automatically. Nothing in the chrome carries a hue. The only saturated color on screen is the user's own: each timeblock wears one of 30 swatches, and the running block is shown large, with a live countdown and progress bar, as a solid slab of that color.\n\nThe density is glanceable rather than dense. The panel is a single column: header, a row of weekday circles, then a timeline where a 58pt time rail sits to the left of stacked color bars spaced 6pt apart. Selection has one grammar. The chosen item fills with the label color and its text inverts to the panel background. The settings tabs are the only exception: they use a tint.\n\nThe brand identity, Dot, sits outside the panel. Dot is the period in \"Periodical\" made into a character: a glossy ink ball with big white oval eyes glancing up and to the right and a small smile. On the app icon Dot sits on a warm yellow tile with a yellow rim bounce. The wordmark is custom geometric monoline lowercase with Dot as its period. The brand is loud and friendly so that the app chrome can stay quiet.",
+    "keyCharacteristics": [
+      "Native macOS: SF Pro, SF Symbols, continuous-corner rounded rectangles, automatic light and dark appearance.",
+      "Neutral chrome made from the system label color at opacity steps. Hue comes only from user blocks.",
+      "Color bars with automatic white or near-black text chosen by luminance.",
+      "One selection grammar: filled ink with inverted text.",
+      "Monospaced digits for every time and countdown.",
+      "Brand: Dot, a glossy ink character on a yellow tile, with a custom monoline wordmark. Both are drawn assets, never typed."
+    ],
+    "rules": [
+      {
+        "name": "The Color Belongs to Blocks Rule",
+        "body": "Chrome never takes a hue. Buttons, toggles, chips, weekday circles, cards, and banners are built from the label color and the panel background. The user's block colors are the only saturated fills. The one exception is Now Red on the current-time line.",
+        "section": "colors"
+      },
+      {
+        "name": "The Legible on Any Swatch Rule",
+        "body": "Text on a block color is white while the swatch's relative luminance is 0.30 or less (at least 3:1 contrast). Above 0.30 it switches to black at 85% opacity. This applies everywhere a block color is a ground: timeline bars, the menu bar pill, and the checkmark on a selected swatch. Never hand-pick text color per swatch.",
+        "section": "colors"
+      },
+      {
+        "name": "The Opacity Ladder Rule",
+        "body": "Neutral surfaces are the label color at fixed steps: 0.03 hover tint and resting option card, 0.04 settings card, 0.05 text field and \"earlier blocks\" row, 0.06 unselected circle and chip and banner, 0.07 ended or skipped block, 0.08 pressed and icon hover. Hairlines are 0.1 to 0.15, outlines 0.35, focus 0.4, the today ring 0.5, and a selected option border 0.6. The bubble stroke is 0.1 in light and 0.18 in dark. Do not introduce gray hex values for chrome.",
+        "section": "colors"
+      },
+      {
+        "name": "The Yellow Stays on the Tile Rule",
+        "body": "The Dot Yellow gradient belongs to the app icon. Panel chrome does not use it. The Yellow and Amber block swatches are user colors, not brand accents.",
+        "section": "colors"
+      },
+      {
+        "name": "The Tabular Time Rule",
+        "body": "Every clock time, duration, and countdown uses monospaced digits, so numbers do not jitter as they tick.",
+        "section": "typography"
+      },
+      {
+        "name": "The Drawn Not Typed Rule",
+        "body": "The wordmark and Dot are geometry from `scripts/make-brand.py`. They are never set in SF or any other font, for licensing reasons and because the letterforms are custom. To change them, edit and rerun the script.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Panel Rule",
+        "body": "No drop shadows inside the panel. Separate things with the opacity ladder and spacing.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** take every on-screen hue from the user's block colors. Build chrome from the label color at Opacity Ladder steps.",
+      "**Do** pick on-color text with `Color.foreground(onHex:)`: white at luminance 0.30 or less, otherwise black at 85%.",
+      "**Do** show selection as a label-color fill with text in the panel background color, for circles, chips, toggles, and filled buttons alike.",
+      "**Do** use monospaced digits for every time, countdown, and duration.",
+      "**Do** use continuous corners on the radius steps 5, 7, 8, 10, and 14, and capsules or circles for choices.",
+      "**Do** mark upcoming blocks with the `starting` hourglass and the running block with the `active` hourglass.",
+      "**Do** use `logo.svg` and `wordmark.svg` on light grounds and the `-dark` files on dark grounds. Regenerate them with `python3 scripts/make-brand.py`.",
+      "**Do** keep the icon's simplified sizes at 32px and 16px when changing Dot."
+    ],
+    "donts": [
+      "**Don't** give chrome a hue, including the brand yellow. The only chrome color is Now Red on the current-time line.",
+      "**Don't** add drop shadows inside the panel. Use tonal fills and spacing.",
+      "**Don't** hand-pick text color for a block swatch or add swatches without checking the 0.30 luminance threshold.",
+      "**Don't** retype the wordmark, or draw Dot, in SF or any other font. Both are drawn geometry from `scripts/make-brand.py`.",
+      "**Don't** put Dot on yellow outside the app icon tile, or use the rim bounce on the standalone logo.",
+      "**Don't** introduce custom fonts or gray hex values into the app UI. It is SF and the system label color only."
+    ]
+  }
+}
