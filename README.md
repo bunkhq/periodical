@@ -1,6 +1,11 @@
-<img src="assets/icon.svg" width="64" height="64" alt="">
+<img src="assets/icon.svg" width="96" height="96" alt="">
 
-# Periodical
+<h1>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/wordmark-dark.svg">
+    <img src="assets/wordmark.svg" height="44" alt="Periodical">
+  </picture>
+</h1>
 
 A macOS menu bar app for your bell schedule. The menu bar shows a colored countdown for the
 current (or next) timeblock; click it to browse each weekday's blocks and add new ones.
