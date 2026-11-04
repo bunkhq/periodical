@@ -28,7 +28,7 @@ Requires macOS 14+ and the Swift toolchain (Command Line Tools are enough).
 ```sh
 ./scripts/bundle.sh          # builds build/Periodical.app
 ./scripts/install.sh         # builds, copies to /Applications, relaunches
-VERSION=0.4.0 ./scripts/dmg.sh   # builds build/Periodical-0.4.0.dmg and .zip (attach both to the release)
+VERSION=0.5.0 ./scripts/dmg.sh   # builds build/Periodical-0.5.0.dmg and .zip (attach both to the release)
 ./scripts/dev.sh             # debug loop: rebuild as a separate dev app, reset its own data, relaunch build/ (installed app untouched)
 ./scripts/dev.sh --seed DIR  # same, but start from the data in DIR (e.g. a 0.3 install, to test upgrading)
 swift test                   # time parser + schedule tests
