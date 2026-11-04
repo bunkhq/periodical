@@ -10,16 +10,38 @@ public struct TimeBlock: Codable, Identifiable, Hashable, Sendable {
     public var end: Int
     /// `Calendar` weekdays: 1 = Sunday ... 7 = Saturday.
     public var weekdays: Set<Int>
+    /// Rotation letters (0 = A) the block repeats on instead of `weekdays`. Nil repeats by weekday.
+    /// Without a rotation set up, the block falls back to `weekdays`.
+    public var cycleDays: Set<Int>?
     /// Hex color string, e.g. `#FF3A3A`.
     public var color: String
+    /// Links blocks that are one class with different times on different schedules
+    /// (Chemistry at 9:00 on A days and 10:15 on B days). Nil for a block on its own.
+    public var groupID: UUID?
 
-    public init(id: UUID = UUID(), name: String, start: Int, end: Int, weekdays: Set<Int>, color: String) {
+    public init(id: UUID = UUID(), name: String, start: Int, end: Int, weekdays: Set<Int>, cycleDays: Set<Int>? = nil, color: String, groupID: UUID? = nil) {
         self.id = id
         self.name = name
         self.start = start
         self.end = end
         self.weekdays = weekdays
+        self.cycleDays = cycleDays
         self.color = color
+        self.groupID = groupID
+    }
+
+    /// The same for every block in a group; a lone block is its own group.
+    public var groupKey: UUID { groupID ?? id }
+
+    public var minutes: Int { end - start }
+
+    /// Whether the block is on the schedule for `day`. Days off don't change the answer; callers check them.
+    public func occurs(on day: CalendarDay, settings: ScheduleSettings, calendar: Calendar = .current) -> Bool {
+        if let cycleDays, settings.rotation != nil {
+            guard let index = settings.cycleIndex(for: day, calendar: calendar) else { return false }
+            return cycleDays.contains(index)
+        }
+        return weekdays.contains(day.weekday(calendar: calendar))
     }
 
     public func interval(on day: Date, calendar: Calendar = .current) -> (start: Date, end: Date) {
@@ -56,21 +78,65 @@ public enum Schedule {
         return calendar.date(byAdding: .day, value: offset, to: today)!
     }
 
-    public static func blocks(_ blocks: [TimeBlock], onWeekday weekday: Int) -> [TimeBlock] {
-        blocks
-            .filter { $0.weekdays.contains(weekday) }
-            .sorted { ($0.start, $0.end, $0.name) < ($1.start, $1.end, $1.name) }
+    /// Blocks on `day`, in time order: the day's custom blocks if it has them, else the usual ones.
+    /// Includes days off, so a skipped day can still show what it skips.
+    public static func blocks(_ blocks: [TimeBlock], on day: CalendarDay, settings: ScheduleSettings, calendar: Calendar = .current) -> [TimeBlock] {
+        let usual = settings.rotation == nil ? withoutScheduleCopies(blocks) : blocks
+        let source = settings.override(for: day)?.blocks ?? usual.filter { $0.occurs(on: day, settings: settings, calendar: calendar) }
+        return source.sorted { ($0.start, $0.end, $0.name) < ($1.start, $1.end, $1.name) }
     }
 
-    /// The block to show in the menu bar: the active one today, else the next one today.
-    public static func current(_ blocks: [TimeBlock], now: Date, calendar: Calendar = .current) -> (TimeBlock, BlockPhase)? {
-        let todays = Self.blocks(blocks, onWeekday: calendar.component(.weekday, from: now))
+    /// With no rotation, a block that has different times per schedule would otherwise show once per
+    /// schedule every day. Keeps one per group instead: the times from its first schedule (A before B).
+    /// Weekday blocks pass through untouched.
+    public static func withoutScheduleCopies(_ blocks: [TimeBlock]) -> [TimeBlock] {
+        var kept: [UUID: TimeBlock] = [:]
+        var result: [TimeBlock] = []
+        for block in blocks {
+            guard let cycle = block.cycleDays else {
+                result.append(block)
+                continue
+            }
+            let rank = (cycle.min() ?? Int.max, block.start)
+            if let current = kept[block.groupKey], ((current.cycleDays?.min() ?? Int.max), current.start) <= rank { continue }
+            kept[block.groupKey] = block
+        }
+        return result + blocks.filter { block in kept[block.groupKey]?.id == block.id }
+    }
+
+    /// The usual blocks for `day`, ignoring any custom blocks set for it.
+    public static func usualBlocks(_ blocks: [TimeBlock], on day: CalendarDay, settings: ScheduleSettings, calendar: Calendar = .current) -> [TimeBlock] {
+        var plain = settings
+        plain.overrides.removeAll { $0.day == day && $0.blocks != nil }
+        return Self.blocks(blocks, on: day, settings: plain, calendar: calendar)
+    }
+
+    /// The block to show in the menu bar: the active one today, else the next one today. Nil on a day off.
+    public static func current(_ blocks: [TimeBlock], settings: ScheduleSettings, now: Date, calendar: Calendar = .current) -> (TimeBlock, BlockPhase)? {
+        let today = CalendarDay(now, calendar: calendar)
+        guard !settings.isDayOff(today) else { return nil }
+        let todays = Self.blocks(blocks, on: today, settings: settings, calendar: calendar)
         let phased = todays.map { ($0, $0.phase(on: now, now: now, calendar: calendar)) }
         // Prefer the most recently started active block when blocks overlap.
         if let active = phased.last(where: { if case .active = $0.1 { return true }; return false }) {
             return active
         }
         return phased.first(where: { if case .upcoming = $0.1 { return true }; return false })
+    }
+
+    /// The first block starting after `now`, looking up to `days` ahead and skipping days off.
+    public static func next(_ blocks: [TimeBlock], settings: ScheduleSettings, after now: Date, days: Int = 21, calendar: Calendar = .current) -> (block: TimeBlock, start: Date)? {
+        let today = CalendarDay(now, calendar: calendar)
+        for offset in 0...days {
+            let day = today.adding(days: offset, calendar: calendar)
+            guard !settings.isDayOff(day) else { continue }
+            let dayStart = day.date(calendar: calendar)
+            for block in Self.blocks(blocks, on: day, settings: settings, calendar: calendar) {
+                let start = block.interval(on: dayStart, calendar: calendar).start
+                if start > now { return (block, start) }
+            }
+        }
+        return nil
     }
 }
 
