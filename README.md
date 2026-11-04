@@ -1,6 +1,11 @@
-<img src="assets/icon.svg" width="64" height="64" alt="">
+<img src="assets/icon.svg" width="96" height="96" alt="">
 
-# Periodical
+<h1>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/wordmark-dark.svg">
+    <img src="assets/wordmark.svg" height="44" alt="Periodical">
+  </picture>
+</h1>
 
 A macOS menu bar app for your bell schedule. The menu bar shows a colored countdown for the
 current (or next) timeblock; click it to browse each weekday's blocks and add new ones.
@@ -23,7 +28,7 @@ Requires macOS 14+ and the Swift toolchain (Command Line Tools are enough).
 ```sh
 ./scripts/bundle.sh          # builds build/Periodical.app
 ./scripts/install.sh         # builds, copies to /Applications, relaunches
-VERSION=0.4.0 ./scripts/dmg.sh   # builds build/Periodical-0.4.0.dmg and .zip (attach both to the release)
+VERSION=0.5.0 ./scripts/dmg.sh   # builds build/Periodical-0.5.0.dmg and .zip (attach both to the release)
 ./scripts/dev.sh             # debug loop: rebuild as a separate dev app, reset its own data, relaunch build/ (installed app untouched)
 ./scripts/dev.sh --seed DIR  # same, but start from the data in DIR (e.g. a 0.3 install, to test upgrading)
 swift test                   # time parser + schedule tests

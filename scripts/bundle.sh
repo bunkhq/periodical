@@ -3,7 +3,7 @@
 set -eu
 cd "$(dirname "$0")/.."
 
-VERSION="${VERSION:-0.4.0}"
+VERSION="${VERSION:-0.5.0}"
 BUILD="${BUILD:-$(git rev-list --count HEAD 2>/dev/null || echo 1)}"
 # dev.sh sets this to app.periodical.Periodical.dev so dev builds keep their own preferences and data folder.
 BUNDLE_ID="${BUNDLE_ID:-app.periodical.Periodical}"
