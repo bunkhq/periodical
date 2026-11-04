@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="274 284 512 512" role="img" aria-label="Periodical">
+<title>Periodical</title>
+<defs>
+    <radialGradient id="dbody" cx="0.36" cy="0.3" r="0.78">
+      <stop offset="0" stop-color="#55555C"/><stop offset="0.5" stop-color="#232326"/><stop offset="1" stop-color="#0B0B0C"/>
+    </radialGradient>
+    <radialGradient id="drim" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0.72" stop-color="#FFC21A" stop-opacity="0"/><stop offset="1" stop-color="#FFC21A" stop-opacity="0.7"/>
+    </radialGradient>
+    <linearGradient id="drimfade" x1="0.15" y1="0.1" x2="0.85" y2="0.95">
+      <stop offset="0.45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity="1"/>
+    </linearGradient>
+    <mask id="drimmask" maskContentUnits="userSpaceOnUse"><rect x="280" y="290" width="500" height="500" fill="url(#drimfade)"/></mask>
+    <linearGradient id="deye" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0.55" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E4E4EC"/>
+    </linearGradient>
+    <filter id="dblur24" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="24"/></filter>
+    <filter id="dblur10" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="10"/></filter>
+  </defs>
+    <circle cx="530" cy="540" r="250" fill="url(#dbody)"/>
+    <ellipse cx="430" cy="390" rx="92" ry="44" transform="rotate(-38 430 390)" fill="#fff" opacity="0.18" filter="url(#dblur10)"/>
+    <ellipse cx="404" cy="372" rx="30" ry="14" transform="rotate(-38 404 372)" fill="#fff" opacity="0.5"/>
+    <ellipse cx="478" cy="506" rx="54" ry="70" fill="url(#deye)"/>
+    <circle cx="493" cy="499" r="31" fill="#0B0B0C"/>
+    <circle cx="503" cy="487" r="10" fill="#fff"/>
+    <ellipse cx="622" cy="506" rx="54" ry="70" fill="url(#deye)"/>
+    <circle cx="637" cy="499" r="31" fill="#0B0B0C"/>
+    <circle cx="647" cy="487" r="10" fill="#fff"/>
+    <path d="M520 626 Q552 656 584 626" fill="none" stroke="#fff" stroke-width="17" stroke-linecap="round"/>
+    <circle cx="530" cy="540" r="245" fill="none" stroke="#fff" stroke-opacity="0.32" stroke-width="10" mask="url(#drimmask)"/>
+</svg>
