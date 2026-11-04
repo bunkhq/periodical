@@ -20,6 +20,14 @@ final class StatusItemController: NSObject {
         set { UserDefaults.standard.set(newValue, forKey: Self.fillButtonKey) }
     }
 
+    private static let showTitleKey = "showCourseNameInMenuBar"
+
+    /// When on, the course name follows the timer in the menu bar button. On by default.
+    private var showTitle: Bool {
+        get { UserDefaults.standard.object(forKey: Self.showTitleKey) as? Bool ?? true }
+        set { UserDefaults.standard.set(newValue, forKey: Self.showTitleKey) }
+    }
+
     init(store: BlockStore, clock: Clock) {
         self.store = store
         self.clock = clock
@@ -56,9 +64,9 @@ final class StatusItemController: NSObject {
         let pill: MenuBarPill
         switch phase {
         case .active(let seconds):
-            pill = MenuBarPill(icon: .active, timer: DurationFormat.string(seconds: seconds), title: block.name, color: block.color, fillsButton: fillButton)
+            pill = MenuBarPill(icon: .active, timer: DurationFormat.string(seconds: seconds), title: block.name, color: block.color, fillsButton: fillButton, showsTitle: showTitle)
         case .upcoming(let seconds):
-            pill = MenuBarPill(icon: .starting, timer: DurationFormat.string(seconds: seconds), title: block.name, color: block.color, fillsButton: fillButton)
+            pill = MenuBarPill(icon: .starting, timer: DurationFormat.string(seconds: seconds), title: block.name, color: block.color, fillsButton: fillButton, showsTitle: showTitle)
         case .passed:
             return
         }
@@ -98,6 +106,9 @@ final class StatusItemController: NSObject {
             let fill = menu.addItem(withTitle: "Fill Menu Bar Button", action: #selector(toggleFillButton), keyEquivalent: "")
             fill.target = self
             fill.state = fillButton ? .on : .off
+            let title = menu.addItem(withTitle: "Show Course Name", action: #selector(toggleShowTitle), keyEquivalent: "")
+            title.target = self
+            title.state = showTitle ? .on : .off
             menu.addItem(.separator())
             menu.addItem(withTitle: "Quit Periodical", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
             statusItem.menu = menu
@@ -117,6 +128,12 @@ final class StatusItemController: NSObject {
         lastRendered = nil
         refresh()
     }
+
+    @objc private func toggleShowTitle() {
+        showTitle.toggle()
+        lastRendered = nil
+        refresh()
+    }
 }
 
 /// The menu bar pill: `[⌛] 1h 26m 54s • Econ & Personal Finance Honors`.
@@ -130,6 +147,8 @@ struct MenuBarPill: Equatable {
     let color: String
     /// The button paints the color itself, so the image only draws the icon and text.
     let fillsButton: Bool
+    /// Off shows only the hourglass and timer.
+    let showsTitle: Bool
 
     private static let height: CGFloat = 20
     private static let padding: CGFloat = 6
@@ -148,10 +167,12 @@ struct MenuBarPill: Equatable {
             .font: NSFont.monospacedDigitSystemFont(ofSize: 13, weight: .bold),
             .foregroundColor: foreground,
         ])
-        text.append(NSAttributedString(string: " • \(displayTitle)", attributes: [
-            .font: NSFont.monospacedDigitSystemFont(ofSize: 13, weight: .regular),
-            .foregroundColor: foreground,
-        ]))
+        if showsTitle {
+            text.append(NSAttributedString(string: " • \(displayTitle)", attributes: [
+                .font: NSFont.monospacedDigitSystemFont(ofSize: 13, weight: .regular),
+                .foregroundColor: foreground,
+            ]))
+        }
         let textSize = text.size()
         let size = NSSize(
             width: ceil(Self.padding * 2 + Self.iconSize.width + Self.gap + textSize.width),

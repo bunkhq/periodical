@@ -3,7 +3,7 @@
 set -eu
 cd "$(dirname "$0")/.."
 
-export VERSION="${VERSION:-0.2.0}"
+export VERSION="${VERSION:-0.3.0}"
 ./scripts/bundle.sh
 
 DMG="build/Periodical-$VERSION.dmg"

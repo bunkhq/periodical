@@ -20,7 +20,7 @@ Requires macOS 14+ and the Swift toolchain (Command Line Tools are enough).
 ```sh
 ./scripts/bundle.sh          # builds build/Periodical.app
 ./scripts/install.sh         # builds, copies to /Applications, relaunches
-VERSION=0.2.0 ./scripts/dmg.sh   # builds build/Periodical-0.2.0.dmg
+VERSION=0.3.0 ./scripts/dmg.sh   # builds build/Periodical-0.3.0.dmg
 swift test                   # time parser + schedule tests
 ```
 
